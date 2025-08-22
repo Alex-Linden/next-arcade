@@ -13,7 +13,7 @@ export function getWinInfo(board: Board): { winner: Player; line: Line; } | null
   for (const line of WIN_LINES) {
     const [a, b, c] = line;
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return { winner: board[a]!, line };
+      return { winner: board[a], line };
     }
   }
   return null;
