@@ -28,14 +28,15 @@ export default function SiteHeader() {
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
-                            <Link href="/" passHref legacyBehavior>
-                                <NavigationMenuLink className="px-3 py-2">Home</NavigationMenuLink>
-                            </Link>
+                            <NavigationMenuLink asChild>
+                                <Link href="/" className="px-3 py-2">Home</Link>
+                            </NavigationMenuLink>
                         </NavigationMenuItem>
+
                         <NavigationMenuItem>
-                            <Link href="/games/tic-tac-toe" passHref legacyBehavior>
-                                <NavigationMenuLink className="px-3 py-2">Tic-Tac-Toe</NavigationMenuLink>
-                            </Link>
+                            <NavigationMenuLink asChild>
+                                <Link href="/games/tic-tac-toe" className="px-3 py-2">Tic-Tac-Toe</Link>
+                            </NavigationMenuLink>
                         </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
