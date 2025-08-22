@@ -15,6 +15,7 @@ const SCORE_KEY = "next-arcade:tictactoe:scores";
 export default function TicTacToeGame() {
     const [state, dispatch] = useReducer(reducer, undefined, initialState);
     const [scores, setScores] = useState<Scores>({ X: 0, O: 0, draws: 0 });
+    console.log(state);
 
     // Load scores once
     useEffect(() => {

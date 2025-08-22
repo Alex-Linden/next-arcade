@@ -37,6 +37,8 @@ export default function HomePage() {
             emoji="💣"
           />
         </div>
+        <div className="bg-red-500 h-8 w-8" />
+
       </section>
     </>
   );
