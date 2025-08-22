@@ -10,16 +10,14 @@ export const metadata: Metadata = {
   description: "Tiny Next.js mini-games",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode; }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className="bg-arcade bg-grid min-h-screen antialiased">
         <SiteHeader />
-        <main className="container mx-auto px-4 py-8">{children}</main>
+        <main className="container mx-auto max-w-5xl px-4 py-10">
+          {children}
+        </main>
       </body>
     </html>
   );

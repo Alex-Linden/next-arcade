@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { Player } from "./logic";
+// import type { Player } from "./logic";
 import { reducer, initialState } from "./state";
 
 type Scores = { X: number; O: number; draws: number; };
@@ -93,7 +93,7 @@ export default function TicTacToeGame() {
             </CardHeader>
 
             <CardContent>
-                <div className="mx-auto grid w-full max-w-xs grid-cols-3 gap-2 sm:max-w-sm">
+                <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-3 sm:max-w-md">
                     {state.board.map((mark, i) => {
                         const row = Math.floor(i / 3) + 1;
                         const col = (i % 3) + 1;
@@ -111,7 +111,7 @@ export default function TicTacToeGame() {
                                     "aspect-square w-full rounded-xl border text-3xl font-semibold leading-none outline-none transition",
                                     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                                     disabled ? "cursor-not-allowed opacity-80" : "hover:bg-accent hover:text-accent-foreground",
-                                    winning && "ring-2 ring-primary"
+                                    winning && "ring-2 ring-primary shadow-[0_0_0_3px_hsl(var(--arcade-primary)/0.25)]"
                                 )}
                             >
                                 {mark ?? ""}

@@ -21,7 +21,7 @@ export default function SiteHeader() {
     return (
         <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto flex items-center justify-between px-4 py-3">
-                <Link href="/" className="font-semibold tracking-tight">
+                <Link href="/" className="font-semibold tracking-tight bg-gradient-to-r from-primary via-fuchsia-500 to-purple-500 bg-clip-text text-transparent">
                     Next Arcade
                 </Link>
 

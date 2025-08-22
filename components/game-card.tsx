@@ -8,6 +8,7 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
     title: string;
@@ -25,24 +26,26 @@ export function GameCard({
     disabled,
 }: Props) {
     return (
-        <Card className={disabled ? "opacity-60" : ""}>
+        <Card className={cn(
+            "group transition-all duration-200",
+            "hover:-translate-y-0.5 hover:shadow-lg",
+            "border-primary/20 hover:border-primary/40"
+        )}>
             <CardHeader className="space-y-1">
                 <CardTitle className="flex items-center gap-2">
-                    <span className="text-xl">{emoji}</span>
+                    <span className="text-2xl drop-shadow-sm">{emoji}</span>
                     {title}
                 </CardTitle>
-                <CardDescription>{description}</CardDescription>
+                <CardDescription className="text-muted-foreground">{description}</CardDescription>
             </CardHeader>
             <CardContent />
             <CardFooter>
                 {href && !disabled ? (
-                    <Button asChild>
+                    <Button asChild className="transition group-hover:shadow">
                         <Link href={href}>Play</Link>
                     </Button>
                 ) : (
-                    <Button variant="secondary" disabled>
-                        Coming soon
-                    </Button>
+                    <Button variant="secondary" disabled>Coming soon</Button>
                 )}
             </CardFooter>
         </Card>

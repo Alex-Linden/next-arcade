@@ -1,12 +1,11 @@
+/* Tailwind v4 core + plugin */
 @import "tailwindcss";
-@import "tw-animate-css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin "tailwindcss-animate";
 
-
+/* Dark mode variant driven by a `.dark` class on a parent (usually <html>) */
 @custom-variant dark (&:is(.dark *));
 
+/* Map Tailwind color tokens to CSS variables (from shadcn init) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -47,6 +46,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* Light theme variables */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -82,6 +82,7 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
+/* Dark theme variables (activated by .dark on a parent) */
 .dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
@@ -116,11 +117,34 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+/* Base layer tweaks */
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+}
+
+/* --- Arcade theme helpers --- */
+:root { --arcade-primary: 262 83% 57%; } /* violet-ish */
+html, body { min-height: 100%; }
+
+.bg-arcade {
+  background:
+    radial-gradient(900px 500px at 110% -10%, hsl(var(--arcade-primary) / 0.12), transparent 60%),
+    radial-gradient(800px 400px at -10% 0%, hsl(180 90% 40% / 0.08), transparent 65%),
+    linear-gradient(to bottom, hsl(0 0% 100%), hsl(0 0% 98%));
+}
+.dark .bg-arcade {
+  background:
+    radial-gradient(900px 500px at 110% -10%, hsl(var(--arcade-primary) / 0.18), transparent 60%),
+    radial-gradient(800px 400px at -10% 0%, hsl(180 90% 40% / 0.12), transparent 65%),
+    linear-gradient(to bottom, hsl(240 10% 6%), hsl(240 10% 3.5%));
+}
+
+/* faint grid overlay */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, hsl(0 0% 50% / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(0 0% 50% / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
 }
