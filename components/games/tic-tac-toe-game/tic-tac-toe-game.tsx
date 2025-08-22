@@ -5,6 +5,11 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import {
+    Dialog, DialogContent, DialogHeader, DialogTitle,
+    DialogDescription, DialogFooter
+} from "@/components/ui/dialog";
+
 // import type { Player } from "./logic";
 import { reducer, initialState } from "./state";
 
@@ -15,7 +20,7 @@ const SCORE_KEY = "next-arcade:tictactoe:scores";
 export default function TicTacToeGame() {
     const [state, dispatch] = useReducer(reducer, undefined, initialState);
     const [scores, setScores] = useState<Scores>({ X: 0, O: 0, draws: 0 });
-    console.log(state);
+    const [winOpen, setWinOpen] = useState(false);
 
     // Load scores once
     useEffect(() => {
@@ -31,6 +36,14 @@ export default function TicTacToeGame() {
             localStorage.setItem(SCORE_KEY, JSON.stringify(scores));
         } catch { }
     }, [scores]);
+
+    useEffect(() => {
+        if (prevStatus.current === "playing" && state.status !== "playing") {
+            const tid = setTimeout(() => setWinOpen(true), 500);
+            return () => clearTimeout(tid);
+        }
+        if (state.status === "playing") setWinOpen(false);
+    }, [state.status]);
 
     // Increment scores once per game end
     const prevStatus = useRef(state.status);
@@ -57,15 +70,22 @@ export default function TicTacToeGame() {
                 return "It’s a draw.";
         }
     })();
+    const winner = state.status === "x_won" ? "X" : state.status === "o_won" ? "O" : null;
+    const dialogTitle = winner ? `${winner} wins!` : "It's a draw";
+    const dialogDesc = winner
+        ? "Nice one. Want to run it back?"
+        : "Nobody cracked it this round. Rematch?";
+
 
     function handleSquareClick(i: number) {
         dispatch({ type: "PLAY", index: i });
     }
 
     function handleNewGame() {
-        // Alternate starter based on previous winner for fun; set to false to always start X
         dispatch({ type: "NEW_GAME", alternateStarter: true });
+        setWinOpen(false);
     }
+
 
     function handleUndo() {
         dispatch({ type: "UNDO" });
@@ -133,6 +153,21 @@ export default function TicTacToeGame() {
                     Reset Scores
                 </Button>
             </CardFooter>
+            <Dialog open={winOpen} onOpenChange={setWinOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl">{dialogTitle}</DialogTitle>
+                        <DialogDescription>{dialogDesc}</DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button onClick={handleNewGame}>Play again</Button>
+                        <Button variant="secondary" onClick={() => setWinOpen(false)}>
+                            Keep board
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
         </Card>
     );
 }

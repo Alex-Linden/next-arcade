@@ -11,10 +11,10 @@ export type State = {
 };
 
 export type Action =
-  | { type: "PLAY"; index: number }
-  | { type: "NEW_GAME"; alternateStarter?: boolean }
-  | { type: "UNDO" }
-  | { type: "RESET" };
+  | { type: "PLAY"; index: number; }
+  | { type: "NEW_GAME"; alternateStarter?: boolean; }
+  | { type: "UNDO"; }
+  | { type: "RESET"; };
 
 export const emptyBoard = (): Board => Array(9).fill(null) as Board;
 
@@ -55,8 +55,8 @@ export function reducer(state: State, action: Action): State {
         ? state.status === "x_won"
           ? "O"
           : state.status === "o_won"
-          ? "X"
-          : "X"
+            ? "X"
+            : "X"
         : "X";
       return { board: emptyBoard(), current: first, status: "playing", winLine: null, history: [] };
     }
@@ -65,9 +65,7 @@ export function reducer(state: State, action: Action): State {
       if (state.history.length === 0) return state;
       const prev = state.history[state.history.length - 1];
       const history = state.history.slice(0, -1);
-      const x = prev.filter((s) => s === "X").length;
-      const o = prev.filter((s) => s === "O").length;
-      const current: Player = x === o ? "X" : "O";
+      const current = nextPlayer(state.current);
       return { ...state, board: prev, current, status: "playing", winLine: null, history };
     }
 
