@@ -58,23 +58,25 @@ export default function TicTacToeGame() {
         prevStatus.current = state.status;
     }, [state.status]);
 
-    const statusText = (() => {
-        switch (state.status) {
-            case "playing":
-                return `Turn: ${state.current}`;
-            case "x_won":
-                return "X wins!";
-            case "o_won":
-                return "O wins!";
-            case "draw":
-                return "It’s a draw.";
-        }
-    })();
+    const statusText =
+        state.status === "playing"
+            ? <>Turn: <Mark m={state.current} /></>
+            : state.status === "x_won"
+                ? <> <Mark m="X" /> wins! </>
+                : state.status === "o_won"
+                    ? <> <Mark m="O" /> wins! </>
+                    : "It’s a draw.";
+
+
     const winner = state.status === "x_won" ? "X" : state.status === "o_won" ? "O" : null;
     const dialogTitle = winner ? `${winner} wins!` : "It's a draw";
     const dialogDesc = winner
         ? "Nice one. Want to run it back?"
         : "Nobody cracked it this round. Rematch?";
+    const titleClass =
+        state.status === "x_won" ? "bg-gradient-to-r from-rose-500 to-fuchsia-500 bg-clip-text text-transparent"
+            : state.status === "o_won" ? "bg-gradient-to-r from-sky-500 to-cyan-400 bg-clip-text text-transparent"
+                : "";
 
 
     function handleSquareClick(i: number) {
@@ -99,6 +101,25 @@ export default function TicTacToeGame() {
         } catch { }
     }
 
+    function markClasses(mark: "X" | "O" | null) {
+        if (mark === "X") {
+            return "bg-gradient-to-br from-rose-500 to-fuchsia-500 text-transparent bg-clip-text drop-shadow";
+        }
+        if (mark === "O") {
+            return "bg-gradient-to-br from-sky-500 to-cyan-400 text-transparent bg-clip-text drop-shadow";
+        }
+        return "";
+    }
+
+    function Mark({ m }: { m: "X" | "O"; }) {
+        return (
+            <span className={cn("font-extrabold", markClasses(m))}>
+                {m}
+            </span>
+        );
+    }
+
+
     return (
         <Card className="mx-auto max-w-md">
             <CardHeader>
@@ -119,6 +140,10 @@ export default function TicTacToeGame() {
                         const col = (i % 3) + 1;
                         const winning = state.winLine ? state.winLine.includes(i as any) : false;
                         const disabled = state.status !== "playing" || !!mark;
+                        const winRing =
+                            state.status === "x_won" ? "ring-rose-500"
+                                : state.status === "o_won" ? "ring-sky-500"
+                                    : "ring-primary";
 
                         return (
                             <button
@@ -131,10 +156,20 @@ export default function TicTacToeGame() {
                                     "aspect-square w-full rounded-xl border text-3xl font-semibold leading-none outline-none transition",
                                     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                                     disabled ? "cursor-not-allowed opacity-80" : "hover:bg-accent hover:text-accent-foreground",
-                                    winning && "ring-2 ring-primary shadow-[0_0_0_3px_hsl(var(--arcade-primary)/0.25)]"
+                                    winning && cn("ring-2", winRing, "shadow-[0_0_0_3px_hsl(var(--arcade-primary)/0.25)]")
                                 )}
                             >
-                                {mark ?? ""}
+                                {mark ? (
+                                    <span
+                                        className={cn(
+                                            "text-4xl sm:text-5xl font-black tracking-tight select-none",
+                                            "animate-in zoom-in-50 fade-in-50 duration-500 ease-out",
+                                            markClasses(mark)
+                                        )}
+                                    >
+                                        {mark}
+                                    </span>
+                                ) : null}
                             </button>
                         );
                     })}
@@ -156,7 +191,7 @@ export default function TicTacToeGame() {
             <Dialog open={winOpen} onOpenChange={setWinOpen}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle className="text-2xl">{dialogTitle}</DialogTitle>
+                        <DialogTitle className={cn("text-3xl font-black", titleClass)}>{dialogTitle}</DialogTitle>
                         <DialogDescription>{dialogDesc}</DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="gap-2 sm:gap-0">
