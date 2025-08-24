@@ -205,11 +205,9 @@ export default function TicTacToeGame() {
                                     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                                     disabled ? "cursor-not-allowed opacity-80" : "hover:bg-accent hover:text-accent-foreground",
                                     winning && cn("ring-2", winRing, "shadow-[0_0_0_3px_hsl(var(--arcade-primary)/0.25)]"),
-                                    // optional: make the oldest one pop a hair
                                     isOldest && "shadow-inner"
                                 )}
                             >
-                                {/* tiny corner dot to mark "oldest" */}
                                 {isOldest && (
                                     <span
                                         aria-hidden="true"
