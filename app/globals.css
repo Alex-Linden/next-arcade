@@ -119,13 +119,64 @@
 
 /* Base layer tweaks */
 @layer base {
-  * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 /* --- Arcade theme helpers --- */
-:root { --arcade-primary: 262 83% 57%; } /* violet-ish */
-html, body { min-height: 100%; }
+:root {
+  --arcade-primary: 262 83% 57%;
+}
+
+/* violet-ish */
+html,
+body {
+  min-height: 100%;
+}
+
+/* --- Accent: Purple/Violet --- */
+:root {
+  /* Change this to taste (HSL: hue 260–275 ≈ purple/violet) */
+  --arcade-primary: 268 84% 62%;
+
+  /* Make the app’s primary color follow the accent */
+  --primary: hsl(var(--arcade-primary));
+  --primary-foreground: oklch(0.985 0 0);
+  /* near-white text on purple */
+
+  /* Stronger focus ring that matches the accent */
+  --ring: hsl(var(--arcade-primary) / 0.60);
+}
+
+.dark {
+  --primary: hsl(var(--arcade-primary));
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  /* near-black on dark */
+  --ring: hsl(var(--arcade-primary) / 0.80);
+}
+
+:root {
+  /* subtle purple-ish grays (optional) */
+  --accent: oklch(0.967 0.006 300);
+  /* light violet tint */
+  --accent-foreground: oklch(0.21 0.006 285.9);
+
+  --muted: oklch(0.97 0.004 300);
+  --muted-foreground: oklch(0.55 0.02 295);
+}
+
+.dark {
+  --accent: oklch(0.27 0.02 295);
+  --accent-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.27 0.02 295);
+  --muted-foreground: oklch(0.70 0.02 295);
+}
+
 
 .bg-arcade {
   background:
@@ -133,6 +184,7 @@ html, body { min-height: 100%; }
     radial-gradient(800px 400px at -10% 0%, hsl(180 90% 40% / 0.08), transparent 65%),
     linear-gradient(to bottom, hsl(0 0% 100%), hsl(0 0% 98%));
 }
+
 .dark .bg-arcade {
   background:
     radial-gradient(900px 500px at 110% -10%, hsl(var(--arcade-primary) / 0.18), transparent 60%),
