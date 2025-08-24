@@ -179,7 +179,8 @@ export default function TicTacToeGame() {
             <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex gap-2">
                     <Button onClick={handleNewGame}>New Game</Button>
-                    <Button variant="outline" onClick={handleUndo} disabled={state.history.length === 0}>
+                    <Button variant="outline" onClick={handleUndo}
+                        disabled={state.mode === "bolt" || state.history.length === 0}>
                         Undo
                     </Button>
                 </div>
