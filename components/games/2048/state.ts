@@ -18,35 +18,31 @@ export type State = {
   score: number;
   best: number;
   status: GameStatus;
-  wonAt: number | null;     // the first tile value that hit/beat WIN_TARGET
+  wonAt: number | null;     // highest tile value at the moment a win was triggered
   movedLast: Direction | null;
+  winTarget: number;        // current threshold to trigger the next win dialog
 };
 
 export type Action =
   | { type: "NEW_GAME" }
   | { type: "MOVE"; dir: Direction }
-  | { type: "KEEP_PLAYING" }  // allow moves after win
+  | { type: "KEEP_PLAYING" }   // user acknowledged the win; bump the threshold
   | { type: "RESET_BEST" }
   | { type: "LOAD"; snapshot: Partial<State> & { board: Board } };
 
-export const WIN_TARGET = 2048;
+export const BASE_WIN_TARGET = 2048;
 
-// ---- initial state
-export const initialState = (): State => {
-  let board = emptyBoard();
-  board = spawnRandom(board);
-  board = spawnRandom(board);
-  return {
-    board,
-    score: 0,
-    best: 0,
-    status: "playing",
-    wonAt: null,
-    movedLast: null,
-  };
-};
+export const initialState = (): State => ({
+  board: emptyBoard(),        // ← no randomness here
+  score: 0,
+  best: 0,
+  status: "playing",
+  wonAt: null,
+  movedLast: null,
+  winTarget: BASE_WIN_TARGET,
+});
 
-// ---- helpers
+// helpers
 const movers: Record<Direction, (b: Board) => { board: Board; moved: boolean; scoreDelta: number }> = {
   left: moveLeft,
   right: moveRight,
@@ -60,7 +56,7 @@ function maxTile(board: Board): number {
   return m;
 }
 
-// ---- reducer
+// reducer
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "NEW_GAME": {
@@ -70,34 +66,33 @@ export function reducer(state: State, action: Action): State {
       return {
         board,
         score: 0,
-        best: state.best,     // keep best across games
+        best: state.best,
         status: "playing",
         wonAt: null,
         movedLast: null,
+        winTarget: BASE_WIN_TARGET, // reset the target
       };
     }
 
     case "MOVE": {
-      // Block input if not actively playing (won → requires KEEP_PLAYING, lost → game over)
       if (state.status !== "playing") return state;
 
-      const move = movers[action.dir];
-      const { board: movedBoard, moved, scoreDelta } = move(state.board);
-      if (!moved) return state; // ignore no-op moves (no spawn, no score change)
+      const { board: movedBoard, moved, scoreDelta } = movers[action.dir](state.board);
+      if (!moved) return state;
 
-      // Valid move → apply score, spawn one random tile
       const withSpawn = spawnRandom(movedBoard);
       const nextScore = state.score + scoreDelta;
       const nextBest = Math.max(state.best, nextScore);
 
-      // Determine next status
+      const max = maxTile(withSpawn);
+
       let nextStatus: GameStatus = state.status;
       let wonAt = state.wonAt;
 
-      const max = maxTile(withSpawn);
-      if (max >= WIN_TARGET) {
+      // ⬇️ trigger win only when crossing the current target
+      if (max >= state.winTarget) {
         nextStatus = "won";
-        if (!wonAt || max > wonAt) wonAt = max;
+        wonAt = max;
       } else if (!hasMoves(withSpawn)) {
         nextStatus = "lost";
       }
@@ -115,8 +110,8 @@ export function reducer(state: State, action: Action): State {
 
     case "KEEP_PLAYING": {
       if (state.status !== "won") return state;
-      // Let the user continue; they can still lose later.
-      return { ...state, status: "playing" };
+      // ⬇️ bump the target so the next popup only appears at 4096, then 8192, etc.
+      return { ...state, status: "playing", winTarget: state.winTarget * 2 };
     }
 
     case "RESET_BEST":
@@ -131,6 +126,7 @@ export function reducer(state: State, action: Action): State {
         status: s.status ?? "playing",
         wonAt: s.wonAt ?? null,
         movedLast: s.movedLast ?? null,
+        winTarget: s.winTarget ?? BASE_WIN_TARGET,
       };
     }
 

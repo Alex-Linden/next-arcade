@@ -168,3 +168,45 @@ export function hasMoves(board: Board): boolean {
   }
   return false;
 }
+
+// Build a test board with two 1024 tiles ready to merge in one move.
+export function createNearWinBoard(
+  direction: "up" | "down" | "left" | "right" = "up"
+): Board {
+  const b = emptyBoard();
+
+  // choose a safe row/col that won't run off the edge
+  switch (direction) {
+    case "up": {
+      const c = 1; // column 1 → indices (0,1) and (1,1)
+      b[toIndex(0, c)] = 1024;
+      b[toIndex(1, c)] = 1024;
+      break;
+    }
+    case "down": {
+      const c = 2; // indices (2,2) and (3,2)
+      b[toIndex(2, c)] = 1024;
+      b[toIndex(3, c)] = 1024;
+      break;
+    }
+    case "left": {
+      const r = 2; // indices (2,0) and (2,1)
+      b[toIndex(r, 0)] = 1024;
+      b[toIndex(r, 1)] = 1024;
+      break;
+    }
+    case "right": {
+      const r = 1; // indices (1,2) and (1,3)
+      b[toIndex(r, 2)] = 1024;
+      b[toIndex(r, 3)] = 1024;
+      break;
+    }
+  }
+
+  // Optional small fillers so the board doesn't look completely empty
+  // (they won't interfere with the merge)
+  b[toIndex(0, 3)] = 2;
+  b[toIndex(3, 3)] = 4;
+
+  return b;
+}

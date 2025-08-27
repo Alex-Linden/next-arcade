@@ -9,11 +9,22 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { reducer, initialState, type Direction } from "./state";
+import { createNearWinBoard } from "./logic";
 
 export default function Game2048() {
     const [state, dispatch] = useReducer(reducer, undefined, initialState);
     const [winOpen, setWinOpen] = useState(false);
     const [loseOpen, setLoseOpen] = useState(false);
+
+    const didInit = useRef(false);
+
+    useEffect(() => {
+        if (didInit.current) return;
+        didInit.current = true;
+
+        // start a fresh game (spawns 2 tiles using Math.random on the client)
+        dispatch({ type: "NEW_GAME" });
+    }, [dispatch]);
 
     // Open win/lose dialogs shortly after the status changes so the board renders first
     const prevStatus = useRef(state.status);
@@ -134,6 +145,18 @@ export default function Game2048() {
                 </div>
                 <Separator className="sm:hidden" />
                 <div className="text-xs text-muted-foreground">Arrows / WASD · Swipe on mobile</div>
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        dispatch({
+                            type: "LOAD",
+                            snapshot: { board: createNearWinBoard("up"), score: 0, status: "playing" },
+                        })
+                    }
+                >
+                    Dev: Near-Win
+                </Button>
+
             </CardFooter>
 
             {/* Win dialog */}
@@ -141,7 +164,7 @@ export default function Game2048() {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-2xl">You made {state.wonAt} 🎉</DialogTitle>
-                        <DialogDescription>Keep going to chase a new high score, or start fresh.</DialogDescription>
+                        <DialogDescription>Next target: {state.winTarget * 2}</DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="gap-2 sm:gap-0">
                         <Button onClick={handleKeepPlaying}>Keep playing</Button>
