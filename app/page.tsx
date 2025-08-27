@@ -21,7 +21,7 @@ export default function HomePage() {
           <GameCard
             title="2048"
             description="Slide & merge to reach 2048."
-            disabled
+            href="/games/2048"
             emoji="🔢"
           />
           <GameCard
