@@ -263,22 +263,26 @@ body {
 
 /* Purple/violet gradient + small gradient grid */
 .bg-violet-grid {
+  /* Order matters: draw grid lines on top of the base gradient */
   background-image:
-    linear-gradient(135deg, hsl(var(--arcade-primary)) 0%, hsl(var(--arcade-secondary)) 100%),
-    repeating-linear-gradient(0deg, hsl(var(--cyan-bright) / 0.12) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(90deg, hsl(var(--cyan-surf) / 0.12) 0 1px, transparent 1px 18px);
+    /* horizontal grid lines (turquoise tint) */
+    repeating-linear-gradient(0deg, hsl(var(--cyan-bright) / 0.16) 0 1px, transparent 1px 18px),
+    /* vertical grid lines */
+    repeating-linear-gradient(90deg, hsl(var(--cyan-surf) / 0.16) 0 1px, transparent 1px 18px),
+    /* base gradient */
+    linear-gradient(135deg, hsl(var(--arcade-primary)) 0%, hsl(var(--arcade-secondary)) 100%);
   background-size:
-    auto,
     18px 18px,
-    18px 18px;
+    18px 18px,
+    auto;
   background-position: center;
-  background-blend-mode: normal, overlay, overlay;
+  background-blend-mode: overlay, overlay, normal;
 }
 
 .dark .bg-violet-grid {
   background-image:
-    linear-gradient(135deg, hsl(var(--arcade-primary) / 0.85) 0%, hsl(var(--arcade-secondary) / 0.85) 100%),
-    repeating-linear-gradient(0deg, hsl(var(--cyan-bright) / 0.10) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(90deg, hsl(var(--cyan-surf) / 0.10) 0 1px, transparent 1px 18px);
-  background-blend-mode: normal, overlay, overlay;
+    repeating-linear-gradient(0deg, hsl(var(--cyan-bright) / 0.14) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, hsl(var(--cyan-surf) / 0.14) 0 1px, transparent 1px 18px),
+    linear-gradient(135deg, hsl(var(--arcade-primary) / 0.85) 0%, hsl(var(--arcade-secondary) / 0.85) 100%);
+  background-blend-mode: overlay, overlay, normal;
 }
