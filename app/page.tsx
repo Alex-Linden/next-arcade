@@ -27,7 +27,7 @@ export default function HomePage() {
           <GameCard
             title="Snake"
             description="Eat apples. Don’t eat yourself."
-            disabled
+            href="/games/snake"
             emoji="🐍"
           />
           <GameCard

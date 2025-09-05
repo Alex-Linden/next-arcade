@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode; }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-arcade bg-grid min-h-screen antialiased">
+      <body className="bg-retro min-h-screen antialiased">
         <SiteHeader />
         <main className="container mx-auto max-w-5xl px-4 py-10">
           {children}
