@@ -28,8 +28,8 @@ export function GameCard({
     return (
         <Card className={cn(
             "group transition-all duration-200",
-            "hover:-translate-y-0.5 hover:shadow-lg",
-            "border-primary/20 hover:border-primary/40"
+            "hover:-translate-y-0.5 hover:shadow-[0_0_28px_hsl(var(--arcade-primary)/0.25)]",
+            "border-primary/25 hover:border-primary/45"
         )}>
             <CardHeader className="space-y-1">
                 <CardTitle className="flex items-center gap-2">

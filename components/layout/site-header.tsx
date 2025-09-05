@@ -23,7 +23,7 @@ export default function SiteHeader() {
             <div className="container mx-auto flex items-center justify-between px-4 py-3">
                 <Link
                     href="/"
-                    className="font-semibold tracking-tight bg-gradient-to-r from-primary via-purple-500 to-fuchsia-500 bg-clip-text text-transparent"
+                    className="font-semibold tracking-tight bg-gradient-to-r from-primary via-purple-500 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-[0_0_12px_hsl(var(--arcade-primary)/0.35)]"
                 >
                     Next Arcade
                 </Link>
