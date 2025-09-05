@@ -207,9 +207,9 @@ body {
   background-image:
     radial-gradient(900px 500px at 110% -10%, hsl(var(--arcade-primary) / 0.12), transparent 60%),
     radial-gradient(800px 400px at -10% 120%, hsl(190 90% 45% / 0.08), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 2px, rgba(0,0,0,0.03) 2px 3px),
-    linear-gradient(180deg, hsl(260 40% 14%), hsl(260 40% 10%)),
-    radial-gradient(100% 100% at 50% 50%, transparent 60%, rgba(0,0,0,0.25));
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0 2px, rgba(0,0,0,0.03) 2px 3px),
+    linear-gradient(180deg, hsl(0 0% 100%), hsl(260 20% 97%)),
+    radial-gradient(100% 100% at 50% 50%, transparent 60%, rgba(0,0,0,0.10));
   background-size:
     auto,
     auto,
