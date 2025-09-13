@@ -31,6 +31,12 @@ export default function HomePage() {
             emoji="🐍"
           />
           <GameCard
+            title="Lights Out"
+            description="Toggle the plus. Turn all lights off."
+            href="/games/lightsOut"
+            emoji="💡"
+          />
+          <GameCard
             title="Minesweeper"
             description="Flag the bombs. Smile if you can."
             disabled

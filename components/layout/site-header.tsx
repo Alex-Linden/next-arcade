@@ -42,6 +42,24 @@ export default function SiteHeader() {
                                 <Link href="/games/tic-tac-toe" className="px-3 py-2">Tic-Tac-Toe</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link href="/games/2048" className="px-3 py-2">2048</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link href="/games/snake" className="px-3 py-2">Snake</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link href="/games/lightsOut" className="px-3 py-2">Lights Out</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
 
@@ -56,7 +74,7 @@ export default function SiteHeader() {
                         <div className="mt-4 space-y-3 text-sm">
                             <p>Mini-games built with Next.js, shadcn/ui, and Tailwind.</p>
                             <Separator />
-                            <p>Planned: 2048, Snake, Minesweeper.</p>
+                            <p>Live: Tic-Tac-Toe, 2048, Snake, Lights Out. Planned: Minesweeper.</p>
                         </div>
                     </SheetContent>
                 </Sheet>
